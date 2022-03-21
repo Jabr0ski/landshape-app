@@ -1,17 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+function App(){
+
+    return (
+        <div className='app'>
+            <TitleRow />
+            {/* <LandBox />
+            <GuessBox />
+            <SubmitButton /> */}
+        </div>
+    )
+}
+
+function TitleRow(){
+    return (
+        <header>
+            <button className='panelButton'></button>
+            <button className='panelButton'></button>
+            <text className='title'>LANDSHAPE</text>
+            <button className='panelButton'></button>
+            <button className='panelButton'></button>
+        </header>
+    )
+}
+
+function LandBox(){
+    return
+}
+
+function GuessBox(){
+    return
+}
+
+function SubmitButton(){
+    return
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <App />,
+    document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
