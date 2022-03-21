@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/landshape-app/static/css/main.9a3e3f0f.css",
+    "main.js": "/landshape-app/static/js/main.5fa122e0.js",
+    "index.html": "/landshape-app/index.html",
+    "main.9a3e3f0f.css.map": "/landshape-app/static/css/main.9a3e3f0f.css.map",
+    "main.5fa122e0.js.map": "/landshape-app/static/js/main.5fa122e0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9a3e3f0f.css",
+    "static/js/main.5fa122e0.js"
+  ]
+}
