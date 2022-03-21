@@ -16,26 +16,40 @@ function App(){
 
 function TitleRow(){
     return (
-        <header>
-            <button className='panelButton'></button>
-            <button className='panelButton'></button>
-            <text className='title'>LANDSHAPE</text>
-            <button className='panelButton'></button>
-            <button className='panelButton'></button>
-        </header>
+        <div>
+            <header>
+                <button className='panelButton'></button>
+                <button className='panelButton'></button>
+                <text className='title'>LANDSHAPE</text>
+                <button className='panelButton'></button>
+                <button className='panelButton'></button>
+            </header>
+            <LandBox/>
+            <GuessBox/>
+            <SubmitButton/>
+        </div>
     )
 }
 
 function LandBox(){
-    return
+    return (
+        <div className='canvas'>
+        </div>
+    )
 }
 
 function GuessBox(){
-    return
+    return (
+        <input className='guessBox'></input>
+    )
 }
 
 function SubmitButton(){
-    return
+    return (
+        <div>
+            <button className='submitButton'> SUBMIT</button>
+        </div>
+    )
 }
 
 ReactDOM.render(
