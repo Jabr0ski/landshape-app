@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import AU from './images/countries/au/vector.svg';
 
 function App(){
 
@@ -34,6 +35,9 @@ function TitleRow(){
 function LandBox(){
     return (
         <div className='canvas'>
+            <img className='country' 
+            src={AU} alt={"Country Pic"}>
+            </img>
         </div>
     )
 }
