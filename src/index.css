@@ -63,6 +63,71 @@
     font-weight: bold;
 }
 
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    opacity: .5;
+  }
+  
+  .modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+  }
+  
+  .modal {
+    z-index: 100;
+    background: white;
+    position: relative;
+    margin: 1.75rem auto;
+    border-radius: 3px;
+    max-width: 500px;
+    padding: 2rem;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .modal-close-button {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    opacity: .3;
+    cursor: pointer;
+    border: none;
+  }
+  
+  button {
+    position: relative;
+    vertical-align: middle;
+    background: transparent;
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 15px;
+    margin-right: 15px;
+    width: 36px;
+    height: 36px;
+    border: 4px solid;
+    color: var(--button-color);
+    border-color: var(--button-color);
+    cursor: pointer;
+    transition: .10s linear,color .10s linear;
+  }
+
 .app{
     position: relative;
     text-align: center;
