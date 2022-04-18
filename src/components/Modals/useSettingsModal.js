@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useSettings = () => {
+const useSettingsModal = () => {
   const [isSettingsShowing, setSettingsIsShowing] = useState(false);
 
   function toggleSettings() {
@@ -13,4 +13,4 @@ const useSettings = () => {
   }
 };
 
-export default useSettings;
+export default useSettingsModal;
