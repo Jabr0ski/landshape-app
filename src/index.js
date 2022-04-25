@@ -7,30 +7,52 @@ import SettingsModal from './components/Modals/SettingsModal';
 import useSettingsModal from './components/Modals/useSettingsModal';
 import StatsModal from './components/Modals/StatsModal';
 import useStatsModal from './components/Modals/useStatsModal';
-// import countryCodes from './components/countryCodes';
 import countryDict from './components/countryDict'
 
-const cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
+let cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
 
 function App(){
     const [guess, setGuess] = useState('');
+    const [submitted, setSubmitted] = useState('');
+    const [message, setMessage] = useState('');  
+    
+    function handleClick(){
+        if (!submitted){
+            if (guess.toLowerCase() === cc.name.toLowerCase()){
+                setMessage(guess + " is correct!")
+                console.log(message)
+            } else {
+                setMessage(guess + "is wrong, it is " + cc.name + ".")
+                console.log(message)
+            }
+        } else {
+            cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
+            setGuess('')
+        }
+        setSubmitted(!submitted)
+    }
+    
     return (
         <div className='app'>
             <TitleRow/>
             <LandBox/>
-            <GuessBox guess={guess} setGuess={setGuess}/>
+            <GuessBox 
+            guess={guess} 
+            setGuess={setGuess}
+            submitted={submitted}
+            setSubmitted={setSubmitted}
+            message={message}
+            setMessage={setMessage}
+            />
             <SubmitButton 
-            onClick={handleClick(guess.toLowerCase())}/>      
+            onClick={handleClick}
+            guess={guess} 
+            setGuess={setGuess}
+            submitted={submitted}
+            setSubmitted={setSubmitted}
+            />      
         </div>
     )
-}
-
-function handleClick(guess){
-    if (guess === cc.name.toLowerCase()){
-        console.log(guess, "correct")
-    } else {
-        console.log(guess, "wrong")
-    } 
 }
 
 function TitleRow(){
@@ -40,23 +62,23 @@ function TitleRow(){
     return (
         <div>
             <header>
-                <button className="panelButton" onClick={toggleSettings}>M</button>
+                <button className="panelButton" onClick={toggleSettings}></button>
                 <SettingsModal
                     isShowing={isSettingsShowing}
                     hide={toggleSettings}
                 />
-                <button className="panelButton" onClick={toggleHelp}>M</button>
+                <button className="panelButton" onClick={toggleHelp}></button>
                 <HelpModal
                     isShowing={isHelpShowing}
                     hide={toggleHelp}
                 />
                 <b className='title'>LANDSHAPE</b>
-                <button className="panelButton" onClick={toggleHelp}>M</button>
+                <button className="panelButton" onClick={toggleHelp}></button>
                 <HelpModal
                     isShowing={isHelpShowing}
                     hide={toggleHelp}
                 />
-                <button className="panelButton" onClick={toggleStats}>M</button>
+                <button className="panelButton" onClick={toggleStats}></button>
                 <StatsModal
                     isShowing={isStatsShowing}
                     hide={toggleStats}
@@ -77,19 +99,34 @@ function LandBox(){
     )
 }
 
-function GuessBox({guess, setGuess}){
+function GuessBox(props){
+    let dispText = ''
+    if (props.submitted){
+        dispText = props.message
+    } else {
+        dispText = props.guess
+    }
     return (
         <input className='guessBox'
-        onChange={e => setGuess(e.target.value)}>
+        value={dispText}
+        disabled={props.submitted}
+        onChange={e => props.setGuess(e.target.value)}>
         </input>
     )
 }
 
-function SubmitButton(props){  
+function SubmitButton(props){
+    let buttonText = ''
+    if (props.submitted){
+        buttonText = 'NEXT'
+    } else {
+        buttonText = 'SUBMIT'
+    }
     return (
         <div>
-            <button className='submitButton'>
-            SUBMIT
+            <button className='submitButton'
+            onClick={props.onClick}>
+            {buttonText}
             </button>
         </div>
     )
