@@ -1,4 +1,4 @@
-const countries = [
+const countryDict = [
   {
     code: "AD",
     latitude: 42.546245,
@@ -1417,4 +1417,4 @@ const countries = [
   },
 ];
 
-export default countries;
+export default countryDict;

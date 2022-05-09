@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import HelpModal from './components/Modals/HelpModal';
@@ -7,22 +7,37 @@ import SettingsModal from './components/Modals/SettingsModal';
 import useSettingsModal from './components/Modals/useSettingsModal';
 import StatsModal from './components/Modals/StatsModal';
 import useStatsModal from './components/Modals/useStatsModal';
-import countryDict from './components/countryDict'
+import countryDict from './components/countryDict';
+import AutoSuggest from 'react-autosuggest';
 
 let cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
+const lowerCasedCountries = countryDict.map(country => {
+    return {
+      name: country.name.toLowerCase()
+    };
+  });
 
 function App(){
     const [guess, setGuess] = useState('');
+    const [value, setValue] = useState('');
     const [submitted, setSubmitted] = useState('');
-    const [message, setMessage] = useState('');  
-    
+    const [message, setMessage] = useState('');
+    const [suggestions, setSuggestions] = useState([]);    
+
+    function getSuggestions(value) {
+        return lowerCasedCountries.filter(country =>
+          country.name.includes(value.trim().toLowerCase())
+        );
+      }
+
     function handleClick(){
+        let answer = value.toLowerCase().trim()
         if (!submitted){
-            if (guess.toLowerCase() === cc.name.toLowerCase()){
-                setMessage(guess + " is correct!")
+            if (answer === cc.name.toLowerCase()){
+                setMessage(cc.name + " is correct!")
                 console.log(message)
             } else {
-                setMessage(guess + "is wrong, it is " + cc.name + ".")
+                setMessage(answer + " is wrong, it is " + cc.name + ".")
                 console.log(message)
             }
         } else {
@@ -37,19 +52,41 @@ function App(){
             <TitleRow/>
             <LandBox/>
             <GuessBox 
-            guess={guess} 
-            setGuess={setGuess}
-            submitted={submitted}
-            setSubmitted={setSubmitted}
-            message={message}
-            setMessage={setMessage}
+              guess={guess} 
+              setGuess={setGuess}
+              submitted={submitted}
+              setSubmitted={setSubmitted}
+              message={message}
+              setMessage={setMessage}
             />
+            <AutoSuggest
+              className='guessBox'
+              suggestions={suggestions}
+              onSuggestionsClearRequested={() => setSuggestions([])}
+              onSuggestionsFetchRequested={({ value }) => {
+                setValue(value);
+                setSuggestions(getSuggestions(value));
+              }}
+              onSuggestionSelected={(_, { suggestionValue }) =>
+                console.log("Selected: " + suggestionValue)
+              }
+              getSuggestionValue={suggestion => suggestion.name}
+              renderSuggestion={suggestion => <span>{suggestion.name}</span>}
+              inputProps={{
+                placeholder: "Guess the country!",
+                value: value,
+                onChange: (_, { newValue, method }) => {
+                  setValue(newValue);
+                }
+              }}
+              highlightFirstSuggestion={true}
+            />      
             <SubmitButton 
-            onClick={handleClick}
-            guess={guess} 
-            setGuess={setGuess}
-            submitted={submitted}
-            setSubmitted={setSubmitted}
+              onClick={handleClick}
+              guess={guess} 
+              setGuess={setGuess}
+              submitted={submitted}
+              setSubmitted={setSubmitted}
             />      
         </div>
     )
