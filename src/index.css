@@ -12,7 +12,8 @@
   }
   
   .react-autosuggest__input {
-    width: 240px;
+    margin-top: 20px;
+    width: 320px;
     height: 30px;
     padding: 10px 20px;
     font-family: Helvetica, sans-serif;
@@ -33,10 +34,11 @@
   
   .react-autosuggest__suggestions-container {
     display: none;
+    
   }
   
   .react-autosuggest__suggestions-container--open {
-    display: block;
+    display: contents;
     position: absolute;
     top: 51px;
     width: 280px;
@@ -104,12 +106,6 @@
     border-radius: 15%;
     min-height: var(--canvas-height);
     max-width: var(--canvas-width);
-}
-
-.guessBox{
-    margin-top: 20px;
-    width: 550px;
-    height: 30px;
 }
 
 .submitButton{
@@ -197,9 +193,6 @@
         padding-left: 15px;
         padding-right: 15px;
     }
-    .guessBox{
-        width: 80vw;
-    }
     :root{
         --canvas-height: 340px;
         --canvas-width: 80vw;
@@ -207,9 +200,6 @@
 }
 
 @media all and (max-height: 560px) {
-    .guessBox{
-        width: 80vw;
-    }
     :root{
         --canvas-height: 50vh;
         --canvas-width: 80vw;
@@ -221,10 +211,6 @@
         font-size: 22px;
         padding-left: 9px;
         padding-right: 9px;
-    }
-    .guessBox{
-        margin-top: 15px;
-        height: 8vh;
     }
     .submitButton{
         margin-top: 15px;
@@ -251,10 +237,6 @@
         font-size: 22px;
         padding-left: 9px;
         padding-right: 9px;
-    }
-    .guessBox{
-        margin-top: 15px;
-        height: 8vh;
     }
     .submitButton{
         margin-top: 15px;

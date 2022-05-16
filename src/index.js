@@ -18,10 +18,8 @@ const lowerCasedCountries = countryDict.map(country => {
   });
 
 function App(){
-    const [guess, setGuess] = useState('');
     const [value, setValue] = useState('');
     const [submitted, setSubmitted] = useState('');
-    const [message, setMessage] = useState('');
     const [suggestions, setSuggestions] = useState([]);    
 
     function getSuggestions(value) {
@@ -34,33 +32,24 @@ function App(){
         let answer = value.toLowerCase().trim()
         if (!submitted){
             if (answer === cc.name.toLowerCase()){
-                setMessage(cc.name + " is correct!")
-                console.log(message)
+                setValue(cc.name + " is correct!")
+                console.log(value)
             } else {
-                setMessage(answer + " is wrong, it is " + cc.name + ".")
-                console.log(message)
+                setValue(answer + " is wrong, it is " + cc.name + ".")
+                console.log(value)
             }
         } else {
             cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
-            setGuess('')
+            setValue('')
         }
         setSubmitted(!submitted)
     }
-    
+
     return (
         <div className='app'>
             <TitleRow/>
             <LandBox/>
-            <GuessBox 
-              guess={guess} 
-              setGuess={setGuess}
-              submitted={submitted}
-              setSubmitted={setSubmitted}
-              message={message}
-              setMessage={setMessage}
-            />
             <AutoSuggest
-              className='guessBox'
               suggestions={suggestions}
               onSuggestionsClearRequested={() => setSuggestions([])}
               onSuggestionsFetchRequested={({ value }) => {
@@ -73,18 +62,18 @@ function App(){
               getSuggestionValue={suggestion => suggestion.name}
               renderSuggestion={suggestion => <span>{suggestion.name}</span>}
               inputProps={{
-                placeholder: "Guess the country!",
+                placeholder: 'Guess the country!',
                 value: value,
+                disabled: submitted,
                 onChange: (_, { newValue, method }) => {
                   setValue(newValue);
                 }
               }}
               highlightFirstSuggestion={true}
+              disabled={submitted}
             />      
             <SubmitButton 
               onClick={handleClick}
-              guess={guess} 
-              setGuess={setGuess}
               submitted={submitted}
               setSubmitted={setSubmitted}
             />      
@@ -136,21 +125,21 @@ function LandBox(){
     )
 }
 
-function GuessBox(props){
-    let dispText = ''
-    if (props.submitted){
-        dispText = props.message
-    } else {
-        dispText = props.guess
-    }
-    return (
-        <input className='guessBox'
-        value={dispText}
-        disabled={props.submitted}
-        onChange={e => props.setGuess(e.target.value)}>
-        </input>
-    )
-}
+// function GuessBox(props){
+//     let dispText = ''
+//     if (props.submitted){
+//         dispText = props.message
+//     } else {
+//         dispText = props.guess
+//     }
+//     return (
+//         <input className='guessBox'
+//         value={dispText}
+//         disabled={props.submitted}
+//         onChange={e => props.setGuess(e.target.value)}>
+//         </input>
+//     )
+// }
 
 function SubmitButton(props){
     let buttonText = ''
