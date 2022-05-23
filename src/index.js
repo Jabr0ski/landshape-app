@@ -11,6 +11,9 @@ import countryDict from './components/countryDict';
 import AutoSuggest from 'react-autosuggest';
 
 let cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
+let currScore = 0
+let highScore = 0
+
 const lowerCasedCountries = countryDict.map(country => {
     return {
       name: country.name.toLowerCase()
@@ -20,7 +23,10 @@ const lowerCasedCountries = countryDict.map(country => {
 function App(){
     const [value, setValue] = useState('');
     const [submitted, setSubmitted] = useState('');
-    const [suggestions, setSuggestions] = useState([]);    
+    const [suggestions, setSuggestions] = useState([]);
+    // const [currScore, setCurrScore] = useState(0);
+    // const [highScore, setHighScore] = useState(0);
+
 
     function getSuggestions(value) {
         return lowerCasedCountries.filter(country =>
@@ -33,10 +39,18 @@ function App(){
         if (!submitted){
             if (answer === cc.name.toLowerCase()){
                 setValue(cc.name + " is correct!")
-                console.log(value)
+                currScore = currScore + 1
+                // setCurrScore(currScore + 1)
+                if (currScore > highScore){
+                    highScore = currScore
+                    // setHighScore(highScore + 1)
+                }
+                console.log(currScore, highScore)
             } else {
                 setValue(answer + " is wrong, it is " + cc.name + ".")
-                console.log(value)
+                currScore = 0
+                // setCurrScore(0)
+                console.log(currScore, highScore)
             }
         } else {
             cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
@@ -117,10 +131,14 @@ function TitleRow(){
 function LandBox(){
     var randomCountry = require('./images/countries/'+cc.code.toLowerCase()+'/vector.svg');
     return (
-        <div className='canvas'>
-            <img className='country' 
-            src={randomCountry} alt={"Country Pic"}>
-            </img>
+        <div>
+            <span className='align'>Current Score: {currScore}</span>
+                <div className='canvas'>
+                    <img className='country' 
+                    src={randomCountry} alt={"Country Pic"}>
+                    </img>
+                </div>
+            <span className='align'>Highest Streak: {highScore}</span>
         </div>
     )
 }

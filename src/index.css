@@ -53,7 +53,6 @@
   }
   
   .react-autosuggest__suggestions-list {
-    margin: 0;
     padding: 0;
     list-style-type: none;
   }
@@ -98,8 +97,16 @@
     transition: .10s linear,color .10s linear;
 }
 
+
+.align {
+  padding: 10px;
+  writing-mode: sideways-lr;
+}
+
 .canvas {
     margin: 0 auto;
+    display: inline-block;
+    vertical-align: middle;
     margin-top: 20px;
     border: 7px solid;
     border-color: var(--button-color);
@@ -195,14 +202,14 @@
     }
     :root{
         --canvas-height: 340px;
-        --canvas-width: 80vw;
+        --canvas-width: 78vw;
     }
 }
 
 @media all and (max-height: 560px) {
     :root{
         --canvas-height: 50vh;
-        --canvas-width: 80vw;
+        --canvas-width: 78vw;
     }
 }
 
@@ -221,7 +228,7 @@
     .canvas {
         margin-top: 15px;
         min-height: 50vh;
-        max-width: 80vw;
+        max-width: 78vw;
     }
     .panelButton{
         margin-left: 7.5px;
