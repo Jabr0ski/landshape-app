@@ -24,9 +24,16 @@ function App(){
     const [value, setValue] = useState('');
     const [submitted, setSubmitted] = useState('');
     const [suggestions, setSuggestions] = useState([]);
-    // const [currScore, setCurrScore] = useState(0);
-    // const [highScore, setHighScore] = useState(0);
 
+    if (localStorage.getItem('currScore') === ''){
+        localStorage.setItem('currScore', 0);
+    }
+    if (localStorage.getItem('highScore') === ''){
+        localStorage.setItem('highScore', 0);
+    }
+    if (localStorage.getItem('cc') === null){
+        localStorage.setItem('cc', cc.code);
+    }
 
     function getSuggestions(value) {
         return lowerCasedCountries.filter(country =>
@@ -40,20 +47,19 @@ function App(){
             if (answer === cc.name.toLowerCase()){
                 setValue(cc.name + " is correct!")
                 currScore = currScore + 1
-                // setCurrScore(currScore + 1)
+                localStorage.setItem('currScore', currScore);
                 if (currScore > highScore){
                     highScore = currScore
-                    // setHighScore(highScore + 1)
+                    localStorage.setItem('Highscore', highScore);
                 }
-                console.log(currScore, highScore)
             } else {
                 setValue(answer + " is wrong, it is " + cc.name + ".")
                 currScore = 0
-                // setCurrScore(0)
-                console.log(currScore, highScore)
+                localStorage.setItem('currScore', currScore);
             }
         } else {
             cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
+            localStorage.setItem('cc', cc.code);
             setValue('')
         }
         setSubmitted(!submitted)
@@ -129,16 +135,17 @@ function TitleRow(){
 }
 
 function LandBox(){
-    var randomCountry = require('./images/countries/'+cc.code.toLowerCase()+'/vector.svg');
+    let ccCode = localStorage.getItem('cc');
+    var randomCountry = require('./images/countries/'+ccCode.toLowerCase()+'/vector.svg');
     return (
         <div>
-            <span className='align'>Current Score: {currScore}</span>
+            <span className='align'>Current Score: {localStorage.getItem('currScore')}</span>
                 <div className='canvas'>
                     <img className='country' 
                     src={randomCountry} alt={"Country Pic"}>
                     </img>
                 </div>
-            <span className='align'>Highest Streak: {highScore}</span>
+            <span className='align'>Highest Streak: {localStorage.getItem('Highscore')}</span>
         </div>
     )
 }
