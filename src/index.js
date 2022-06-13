@@ -10,9 +10,20 @@ import useStatsModal from './components/Modals/useStatsModal';
 import countryDict from './components/countryDict';
 import AutoSuggest from 'react-autosuggest';
 
-let cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
+let seed = Math.floor(Math.random()*(countryDict.length))
 let currScore = 0
 let highScore = 0
+
+let currCountry = countryDict[localStorage.getItem('seed')]
+
+if (localStorage.getItem('currScore')){
+    currScore = parseInt(localStorage.getItem('currScore'));
+}
+
+if (localStorage.getItem('highScore')){
+    highScore = parseInt(localStorage.getItem('highScore'))
+    console.log(highScore);
+}
 
 const lowerCasedCountries = countryDict.map(country => {
     return {
@@ -25,15 +36,16 @@ function App(){
     const [submitted, setSubmitted] = useState('');
     const [suggestions, setSuggestions] = useState([]);
 
-    if (localStorage.getItem('currScore') === ''){
+    if (localStorage.getItem('currScore') === 0){
         localStorage.setItem('currScore', 0);
     }
-    if (localStorage.getItem('highScore') === ''){
-        localStorage.setItem('highScore', 0);
+    if (localStorage.getItem('highScore') === 0){
+        localStorage.setItem('highScore', 0)
+        console.log(highScore);
     }
-    if (localStorage.getItem('cc') === null){
-        localStorage.setItem('cc', cc.code);
-    }
+    if (localStorage.getItem('seed') === null){
+        localStorage.setItem('seed', seed);
+    } 
 
     function getSuggestions(value) {
         return lowerCasedCountries.filter(country =>
@@ -44,22 +56,23 @@ function App(){
     function handleClick(){
         let answer = value.toLowerCase().trim()
         if (!submitted){
-            if (answer === cc.name.toLowerCase()){
-                setValue(cc.name + " is correct!")
+            if (answer === currCountry.name.toLowerCase()){
+                setValue(currCountry.name + " is correct!")
                 currScore = currScore + 1
                 localStorage.setItem('currScore', currScore);
                 if (currScore > highScore){
                     highScore = currScore
-                    localStorage.setItem('Highscore', highScore);
+                    localStorage.setItem('highScore', highScore);
                 }
             } else {
-                setValue(answer + " is wrong, it is " + cc.name + ".")
+                setValue(answer + " is wrong, it is " + currCountry.name + ".")
                 currScore = 0
                 localStorage.setItem('currScore', currScore);
             }
+            seed = Math.floor(Math.random()*(countryDict.length))
+            localStorage.setItem('seed', seed);
         } else {
-            cc = countryDict[Math.floor(Math.random()*(countryDict.length))]
-            localStorage.setItem('cc', cc.code);
+            currCountry = countryDict[localStorage.getItem('seed')]
             setValue('')
         }
         setSubmitted(!submitted)
@@ -135,8 +148,8 @@ function TitleRow(){
 }
 
 function LandBox(){
-    let ccCode = localStorage.getItem('cc');
-    var randomCountry = require('./images/countries/'+ccCode.toLowerCase()+'/vector.svg');
+    let countryCode = currCountry.code.toLowerCase()
+    var randomCountry = require('./images/countries/'+countryCode+'/vector.svg');
     return (
         <div>
             <span className='align'>Current Score: {localStorage.getItem('currScore')}</span>
@@ -145,7 +158,7 @@ function LandBox(){
                     src={randomCountry} alt={"Country Pic"}>
                     </img>
                 </div>
-            <span className='align'>Highest Streak: {localStorage.getItem('Highscore')}</span>
+            <span className='align'>Highest Streak: {localStorage.getItem('highScore')}</span>
         </div>
     )
 }
