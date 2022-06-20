@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/landshape-app/static/css/main.f61e37ab.css",
-    "main.js": "/landshape-app/static/js/main.e1ef26eb.js",
+    "main.js": "/landshape-app/static/js/main.23ca1c69.js",
     "static/media/vector.svg": "/landshape-app/static/media/vector.90f847ce67f712a201b5.svg",
     "index.html": "/landshape-app/index.html",
     "main.f61e37ab.css.map": "/landshape-app/static/css/main.f61e37ab.css.map",
-    "main.e1ef26eb.js.map": "/landshape-app/static/js/main.e1ef26eb.js.map"
+    "main.23ca1c69.js.map": "/landshape-app/static/js/main.23ca1c69.js.map"
   },
   "entrypoints": [
     "static/css/main.f61e37ab.css",
-    "static/js/main.e1ef26eb.js"
+    "static/js/main.23ca1c69.js"
   ]
 }
