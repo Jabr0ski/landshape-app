@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import HelpModal from './components/Modals/HelpModal';
@@ -35,6 +35,12 @@ function App(){
     const [value, setValue] = useState('');
     const [submitted, setSubmitted] = useState('');
     const [suggestions, setSuggestions] = useState([]);
+    const countryInput = useRef();
+    // const subButton = useRef();
+    
+    useEffect(()=>{
+        countryInput.current.focus();  
+    })
 
     if (localStorage.getItem('currScore') === 0){
         localStorage.setItem('currScore', 0);
@@ -53,6 +59,18 @@ function App(){
         );
       }
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        console.log("refresh prevented");
+      };
+
+    function handleKeypress(e) {      
+        //triggers by pressing the enter key    
+        if (e.keyCode === 13) {      
+            handleClick();  
+        }
+    };
+
     function handleClick(){
         let answer = value.toLowerCase().trim()
         if (!submitted){
@@ -70,18 +88,21 @@ function App(){
                 localStorage.setItem('currScore', currScore);
             }
             seed = Math.floor(Math.random()*(countryDict.length))
-            localStorage.setItem('seed', seed);
+            localStorage.setItem('seed', seed)
         } else {
+            // subButton.current.focus();
             currCountry = countryDict[localStorage.getItem('seed')]
             setValue('')
         }
         setSubmitted(!submitted)
+        return false
     }
 
     return (
         <div className='app'>
             <TitleRow/>
             <LandBox/>
+            <form onSubmit={onSubmit}>
             <AutoSuggest
               suggestions={suggestions}
               onSuggestionsClearRequested={() => setSuggestions([])}
@@ -95,6 +116,7 @@ function App(){
               getSuggestionValue={suggestion => suggestion.name}
               renderSuggestion={suggestion => <span>{suggestion.name}</span>}
               inputProps={{
+                ref: countryInput,
                 placeholder: 'Guess the country!',
                 value: value,
                 disabled: submitted,
@@ -103,13 +125,17 @@ function App(){
                 }
               }}
               highlightFirstSuggestion={true}
+              onKeyPress={handleKeypress}
               disabled={submitted}
             />      
-            <SubmitButton 
+            <SubmitButton
               onClick={handleClick}
+              onKeyPress={handleKeypress}
               submitted={submitted}
               setSubmitted={setSubmitted}
-            />      
+            //   ref={subButton}
+            />
+            </form>
         </div>
     )
 }
@@ -188,8 +214,9 @@ function SubmitButton(props){
     }
     return (
         <div>
-            <button className='submitButton'
+            <button type="submit" className='submitButton'
             onClick={props.onClick}>
+            {/* ref={props.subButton}> */}
             {buttonText}
             </button>
         </div>
