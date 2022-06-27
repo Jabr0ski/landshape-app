@@ -36,10 +36,15 @@ function App(){
     const [submitted, setSubmitted] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const countryInput = useRef();
-    // const subButton = useRef();
+    // const subButton = React.createRef();
     
     useEffect(()=>{
-        countryInput.current.focus();  
+        if(value===""){
+            countryInput.current.focus();
+        }
+        // } else if(submitted){
+        //     subButton.current.focus();
+        // }
     })
 
     if (localStorage.getItem('currScore') === 0){
@@ -61,17 +66,10 @@ function App(){
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log("refresh prevented");
       };
 
-    function handleKeypress(e) {      
-        //triggers by pressing the enter key    
-        if (e.keyCode === 13) {      
-            handleClick();  
-        }
-    };
-
     function handleClick(){
+        console.log("click")
         let answer = value.toLowerCase().trim()
         if (!submitted){
             if (answer === currCountry.name.toLowerCase()){
@@ -83,14 +81,17 @@ function App(){
                     localStorage.setItem('highScore', highScore);
                 }
             } else {
-                setValue(answer + " is wrong, it is " + currCountry.name + ".")
+                if (answer === ""){
+                    setValue("It is " + currCountry.name + ".")
+                } else {
+                    setValue(answer + " is wrong. It is " + currCountry.name + ".")
+                }
                 currScore = 0
                 localStorage.setItem('currScore', currScore);
             }
             seed = Math.floor(Math.random()*(countryDict.length))
             localStorage.setItem('seed', seed)
         } else {
-            // subButton.current.focus();
             currCountry = countryDict[localStorage.getItem('seed')]
             setValue('')
         }
@@ -125,15 +126,15 @@ function App(){
                 }
               }}
               highlightFirstSuggestion={true}
-              onKeyPress={handleKeypress}
+            //   onKeyPress={handleKeypress}
               disabled={submitted}
             />      
             <SubmitButton
               onClick={handleClick}
-              onKeyPress={handleKeypress}
+            //   ref={subButton}
+            //   onKeyPress={handleKeypress}
               submitted={submitted}
               setSubmitted={setSubmitted}
-            //   ref={subButton}
             />
             </form>
         </div>
@@ -215,8 +216,8 @@ function SubmitButton(props){
     return (
         <div>
             <button type="submit" className='submitButton'
-            onClick={props.onClick}>
-            {/* ref={props.subButton}> */}
+            onClick={props.onClick}
+            ref={props.subButton}>
             {buttonText}
             </button>
         </div>
