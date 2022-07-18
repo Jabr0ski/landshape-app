@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import HelpModal from './components/Modals/HelpModal';
@@ -36,7 +36,7 @@ function App(){
     const [submitted, setSubmitted] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const countryInput = useRef();
-    // const subButton = React.createRef();
+    const SubmitButtonRef = useRef();
     
     useEffect(()=>{
         if(value===""){
@@ -66,6 +66,7 @@ function App(){
 
     const onSubmit = (e) => {
         e.preventDefault();
+        SubmitButtonRef.current.focus();
       };
 
     function handleClick(){
@@ -131,6 +132,7 @@ function App(){
             />      
             <SubmitButton
               onClick={handleClick}
+              ref={SubmitButtonRef}
             //   ref={subButton}
             //   onKeyPress={handleKeypress}
               submitted={submitted}
@@ -206,23 +208,41 @@ function LandBox(){
 //     )
 // }
 
-function SubmitButton(props){
+const SubmitButton = forwardRef((props, ref) => {
     let buttonText = ''
     if (props.submitted){
         buttonText = 'NEXT'
     } else {
         buttonText = 'SUBMIT'
     }
-    return (
-        <div>
-            <button type="submit" className='submitButton'
-            onClick={props.onClick}
-            ref={props.subButton}>
-            {buttonText}
-            </button>
-        </div>
-    )
-}
+    return(
+    <div>
+    <button type="submit" 
+    className='submitButton'
+    onClick={props.onClick}
+    ref = {ref}>
+    {buttonText}
+    </button>
+    </div>)
+  })
+
+// function SubmitButton(props){
+//     let buttonText = ''
+//     if (props.submitted){
+//         buttonText = 'NEXT'
+//     } else {
+//         buttonText = 'SUBMIT'
+//     }
+//     return (
+//         <div>
+//             <button type="submit" className='submitButton'
+//             onClick={props.onClick}
+//             ref={props.subButton}>
+//             {buttonText}
+//             </button>
+//         </div>
+//     )
+// }
 
 ReactDOM.render(
     <App />,
