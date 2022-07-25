@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import HelpModal from './components/Modals/HelpModal';
@@ -192,22 +192,6 @@ function LandBox(){
     )
 }
 
-// function GuessBox(props){
-//     let dispText = ''
-//     if (props.submitted){
-//         dispText = props.message
-//     } else {
-//         dispText = props.guess
-//     }
-//     return (
-//         <input className='guessBox'
-//         value={dispText}
-//         disabled={props.submitted}
-//         onChange={e => props.setGuess(e.target.value)}>
-//         </input>
-//     )
-// }
-
 const SubmitButton = forwardRef((props, ref) => {
     let buttonText = ''
     if (props.submitted){
@@ -225,24 +209,6 @@ const SubmitButton = forwardRef((props, ref) => {
     </button>
     </div>)
   })
-
-// function SubmitButton(props){
-//     let buttonText = ''
-//     if (props.submitted){
-//         buttonText = 'NEXT'
-//     } else {
-//         buttonText = 'SUBMIT'
-//     }
-//     return (
-//         <div>
-//             <button type="submit" className='submitButton'
-//             onClick={props.onClick}
-//             ref={props.subButton}>
-//             {buttonText}
-//             </button>
-//         </div>
-//     )
-// }
 
 ReactDOM.render(
     <App />,
