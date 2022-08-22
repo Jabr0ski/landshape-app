@@ -21,8 +21,7 @@ if (localStorage.getItem('currScore')){
 }
 
 if (localStorage.getItem('highScore')){
-    highScore = parseInt(localStorage.getItem('highScore'))
-    console.log(highScore);
+    highScore = parseInt(localStorage.getItem('highScore'));
 }
 
 const lowerCasedCountries = countryDict.map(country => {
@@ -42,9 +41,6 @@ function App(){
         if(value===""){
             countryInput.current.focus();
         }
-        // } else if(submitted){
-        //     subButton.current.focus();
-        // }
     })
 
     if (localStorage.getItem('currScore') === 0){
@@ -52,7 +48,6 @@ function App(){
     }
     if (localStorage.getItem('highScore') === 0){
         localStorage.setItem('highScore', 0)
-        console.log(highScore);
     }
     if (localStorage.getItem('seed') === null){
         localStorage.setItem('seed', seed);
