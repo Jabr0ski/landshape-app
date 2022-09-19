@@ -1,54 +1,47 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// let AFchkd = 1
-let ANchkd = 1
-let ASchkd = 1
-let EUchkd = 1
-let NAchkd = 1
-let OCchkd = 1
-let SAchkd = 1
 
 if (localStorage.getItem('AF')){
   //nothing
-  console.log('test' + localStorage.getItem('AF'))
+  // console.log('test' + localStorage.getItem('AF'))
 } else {
   localStorage.setItem('AF', 1)
-  console.log('test2' + localStorage.getItem('AF'))
+  // console.log('test2' + localStorage.getItem('AF'))
 }
 
 if (localStorage.getItem('AN')){
-  ANchkd = parseInt(localStorage.getItem('AN'));
+  // ANchkd = parseInt(localStorage.getItem('AN'));
 } else {
   localStorage.setItem('AN', 1)
 }
 
 if (localStorage.getItem('AS')){
-  ASchkd = parseInt(localStorage.getItem('AS'));
+  // ASchkd = parseInt(localStorage.getItem('AS'));
 } else {
   localStorage.setItem('AS', 1)
 }
 
 if (localStorage.getItem('EU')){
-  EUchkd = parseInt(localStorage.getItem('EU'));
+  // EUchkd = parseInt(localStorage.getItem('EU'));
 } else {
   localStorage.setItem('EU', 1)
 }
 
 if (localStorage.getItem('NA')){
-  NAchkd = parseInt(localStorage.getItem('NA'));
+  // NAchkd = parseInt(localStorage.getItem('NA'));
 } else {
   localStorage.setItem('NA', 1)
 }
 
 if (localStorage.getItem('OC')){
-  OCchkd = parseInt(localStorage.getItem('OC'));
+  // OCchkd = parseInt(localStorage.getItem('OC'));
 } else {
   localStorage.setItem('OC', 1)
 }
 
 if (localStorage.getItem('SA')){
-  SAchkd = parseInt(localStorage.getItem('SA'));
+  // SAchkd = parseInt(localStorage.getItem('SA'));
 } else {
   localStorage.setItem('SA', 1)
 }
@@ -58,6 +51,7 @@ function boxUpdate(contCode, currChk){
   let newVal = 1 - currChk
   localStorage.setItem(contCode, newVal)
   console.log(newVal, 'after' + localStorage.getItem('AF'))
+  // stopPropagation();
 }
 
 const SettingsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal(
@@ -83,34 +77,52 @@ const SettingsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal
           <div>
             <form>
               <label htmlFor="AF">
-                <input type="checkbox" id="AF" name="Africa" 
-                // value="yes" 
+                <input type="checkbox" id="AF" name="Africa"  
                 defaultChecked={parseInt(localStorage.getItem('AF'))} 
-                onClick={boxUpdate("AF", parseInt(localStorage.getItem('AF')))}/>  Africa 
+                onClickCapture={(e)=> {e.stopPropagation(); boxUpdate("AF", parseInt(localStorage.getItem('AF')))}}
+                />  Africa 
               </label>
               <br/>
               <label htmlFor="AN">
-                <input type="checkbox" id="AN" name="Antarctica" value="yes"/>  Antarctica 
+                <input type="checkbox" id="AN" name="Antarctica"
+                defaultChecked={parseInt(localStorage.getItem('AN'))} 
+                onClickCapture={(e)=> {e.stopPropagation(); boxUpdate("AN", parseInt(localStorage.getItem('AN')))}}
+                />  Antarctica 
               </label>
               <br/>
               <label htmlFor="AS">
-                <input type="checkbox" id="AS" name="Asia" value="yes"/>  Asia 
+                <input type="checkbox" id="AS" name="Asia"
+                defaultChecked={parseInt(localStorage.getItem('AS'))} 
+                onClickCapture={(e)=> {e.stopPropagation(); boxUpdate("AS", parseInt(localStorage.getItem('AS')))}}
+                />  Asia 
               </label>
               <br/>
               <label htmlFor="EU">
-                <input type="checkbox" id="EU" name="Europe" value="yes"/>  Europe 
+                <input type="checkbox" id="EU" name="Europe"
+                defaultChecked={parseInt(localStorage.getItem('EU'))} 
+                onClickCapture={(e)=> {e.stopPropagation(); boxUpdate("EU", parseInt(localStorage.getItem('EU')))}}
+                />  Europe 
               </label>
               <br/>
               <label htmlFor="NA">
-                <input type="checkbox" id="NA" name="North America" value="yes"/>  North America 
+                <input type="checkbox" id="NA" name="North America"
+                defaultChecked={parseInt(localStorage.getItem('NA'))} 
+                onClickCapture={(e)=> {e.stopPropagation(); boxUpdate("NA", parseInt(localStorage.getItem('NA')))}}
+                />  North America 
               </label>
               <br/>
               <label htmlFor="OC">
-                <input type="checkbox" id="OC" name="Oceania" value="yes"/>  Oceania 
+                <input type="checkbox" id="OC" name="Oceania"
+                defaultChecked={parseInt(localStorage.getItem('OC'))} 
+                onClickCapture={(e)=> {e.stopPropagation(); boxUpdate("OC", parseInt(localStorage.getItem('OC')))}}
+                />  Oceania 
               </label>
               <br/>
               <label htmlFor="SA">
-                <input type="checkbox" id="SA" name="South America" value="yes"/>  South America 
+                <input type="checkbox" id="SA" name="South America"
+                defaultChecked={parseInt(localStorage.getItem('SA'))} 
+                onClickCapture={(e)=> {e.stopPropagation(); boxUpdate("SA", parseInt(localStorage.getItem('SA')))}}
+                />  South America 
               </label>
             </form>
           </div>
