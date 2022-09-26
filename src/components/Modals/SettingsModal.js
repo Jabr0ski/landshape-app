@@ -1,47 +1,44 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
 if (localStorage.getItem('AF')){
-  //nothing
-  // console.log('test' + localStorage.getItem('AF'))
+  // nothing
 } else {
   localStorage.setItem('AF', 1)
-  // console.log('test2' + localStorage.getItem('AF'))
 }
 
 if (localStorage.getItem('AN')){
-  // ANchkd = parseInt(localStorage.getItem('AN'));
+  // nothing
 } else {
   localStorage.setItem('AN', 1)
 }
 
 if (localStorage.getItem('AS')){
-  // ASchkd = parseInt(localStorage.getItem('AS'));
+  // nothing
 } else {
   localStorage.setItem('AS', 1)
 }
 
 if (localStorage.getItem('EU')){
-  // EUchkd = parseInt(localStorage.getItem('EU'));
+  // nothing
 } else {
   localStorage.setItem('EU', 1)
 }
 
 if (localStorage.getItem('NA')){
-  // NAchkd = parseInt(localStorage.getItem('NA'));
+  // nothing
 } else {
   localStorage.setItem('NA', 1)
 }
 
 if (localStorage.getItem('OC')){
-  // OCchkd = parseInt(localStorage.getItem('OC'));
+  // nothing
 } else {
   localStorage.setItem('OC', 1)
 }
 
 if (localStorage.getItem('SA')){
-  // SAchkd = parseInt(localStorage.getItem('SA'));
+  // nothing
 } else {
   localStorage.setItem('SA', 1)
 }
@@ -51,7 +48,6 @@ function boxUpdate(contCode, currChk){
   let newVal = 1 - currChk
   localStorage.setItem(contCode, newVal)
   console.log(newVal, 'after' + localStorage.getItem('AF'))
-  // stopPropagation();
 }
 
 const SettingsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal(

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -8,6 +9,7 @@ import useSettingsModal from './components/Modals/useSettingsModal';
 import StatsModal from './components/Modals/StatsModal';
 import useStatsModal from './components/Modals/useStatsModal';
 import countryDict from './components/countryDict';
+import Queue from './components/queueClass';
 import AutoSuggest from 'react-autosuggest';
 
 let seed = Math.floor(Math.random()*(countryDict.length))
@@ -16,6 +18,63 @@ let highScore = 0
 
 let currCountry = countryDict[localStorage.getItem('seed')]
 
+let AFqueue = new Queue();
+let ANqueue = new Queue();
+let ASqueue = new Queue();
+let EUqueue = new Queue();
+let NAqueue = new Queue();
+let OCqueue = new Queue();
+let SAqueue = new Queue();
+
+if (localStorage.getItem('AFqueue')){
+        AFqueue = localStorage.getItem('AFqueue');
+} else {
+        AFqueue.continent = 'AF'
+        localStorage.setItem('AFqueue', AFqueue)
+}
+
+if (localStorage.getItem('ANqueue')){
+        ANqueue = localStorage.getItem('ANqueue');
+} else {
+        ANqueue.continent = 'AN'
+        localStorage.setItem('ANqueue', ANqueue)
+}
+
+if (localStorage.getItem('ASqueue')){
+        ASqueue = localStorage.getItem('ASqueue');
+} else {
+        ASqueue.continent = 'AS'
+        localStorage.setItem('ASqueue', ASqueue)
+}
+
+if (localStorage.getItem('EUqueue')){
+        EUqueue = localStorage.getItem('EUqueue');
+} else {
+        EUqueue.continent = 'EU'
+        localStorage.setItem('EUqueue', EUqueue)
+}
+
+if (localStorage.getItem('NAqueue')){
+        NAqueue = localStorage.getItem('NAqueue');
+} else {
+        NAqueue.continent = 'NA'
+        localStorage.setItem('NAqueue', NAqueue)
+}
+
+if (localStorage.getItem('OCqueue')){
+        AFqueue = localStorage.getItem('OCqueue');
+} else {
+        OCqueue.continent = 'OC'
+        localStorage.setItem('OCqueue', OCqueue)
+}
+
+if (localStorage.getItem('SAqueue')){
+        SAqueue = localStorage.getItem('SAqueue');
+} else {
+        SAqueue.continent = 'SA'
+        localStorage.setItem('SAqueue', SAqueue)
+}
+
 if (localStorage.getItem('currScore')){
     currScore = parseInt(localStorage.getItem('currScore'));
 }
@@ -23,6 +82,8 @@ if (localStorage.getItem('currScore')){
 if (localStorage.getItem('highScore')){
     highScore = parseInt(localStorage.getItem('highScore'));
 }
+
+const continentsArr = ['AF', 'AN', 'AS', 'EU', 'NA', 'OC', 'SA']
 
 const lowerCasedCountries = countryDict.map(country => {
     return {
@@ -86,6 +147,29 @@ function App(){
                 localStorage.setItem('currScore', currScore);
             }
             seed = Math.floor(Math.random()*(countryDict.length))
+            currCountry = countryDict[localStorage.getItem('seed')]
+
+            let testCount = 0
+            let contSum = 0
+            let testCountry = currCountry
+
+            continentsArr.forEach((cont)=>{
+                console.log('testing ' + cont)
+                contSum += localStorage.getItem(cont)
+            })
+            if(contSum == 0) {
+                continentsArr.forEach((cont)=>{
+                    console.log('changing ' + cont)
+                    localStorage.setItem(cont, 1)
+                })
+            } 
+            while (localStorage.getItem(testCountry.continent) == 0 && testCount < 50 ){
+                console.log(seed + "in loop before" + testCountry.continent + testCountry.name)
+                seed = Math.floor(Math.random()*(countryDict.length))
+                testCountry = countryDict[seed]
+                console.log(seed + "in loop after" + testCountry.continent + testCountry.name)
+                testCount = testCount + 1
+            }
             localStorage.setItem('seed', seed)
         } else {
             currCountry = countryDict[localStorage.getItem('seed')]
@@ -122,14 +206,11 @@ function App(){
                 }
               }}
               highlightFirstSuggestion={true}
-            //   onKeyPress={handleKeypress}
               disabled={submitted}
             />      
             <SubmitButton
               onClick={handleClick}
               ref={SubmitButtonRef}
-            //   ref={subButton}
-            //   onKeyPress={handleKeypress}
               submitted={submitted}
               setSubmitted={setSubmitted}
             />
