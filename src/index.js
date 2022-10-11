@@ -32,7 +32,7 @@ let SAqueue = []
 
 if (localStorage.getItem('OAqueue')){
     // localStorage.removeItem("OAqueue")
-        OAqueue = localStorage.getItem('OAqueue');
+        OAqueue = localStorage.getItem('OAqueue').split(',').map(Number);
         // console.log(typeof(OAqueue))
         // console.log(OAqueue)
         // OAqueue.continent = 'OA'
@@ -47,7 +47,7 @@ if (localStorage.getItem('OAqueue')){
 
 if (localStorage.getItem('AFqueue')){
     // localStorage.removeItem("AFqueue")
-        AFqueue = localStorage.getItem('AFqueue');
+        AFqueue = localStorage.getItem('AFqueue').split(',').map(Number);
         // AFqueue.continent = 'AF'
 } else {
         // AFqueue.continent = 'AF'
@@ -56,7 +56,7 @@ if (localStorage.getItem('AFqueue')){
 
 if (localStorage.getItem('ANqueue')){
     // localStorage.removeItem("ANqueue")
-        ANqueue = localStorage.getItem('ANqueue');
+        ANqueue = localStorage.getItem('ANqueue').split(',').map(Number);
         // ANqueue.continent = 'AN'
 } else {
         // ANqueue.continent = 'AN'
@@ -65,7 +65,7 @@ if (localStorage.getItem('ANqueue')){
 
 if (localStorage.getItem('ASqueue')){
     // localStorage.removeItem("ASqueue")
-        ASqueue = localStorage.getItem('ASqueue');
+        ASqueue = localStorage.getItem('ASqueue').split(',').map(Number);
         // ASqueue.continent = 'AS'
 } else {
         // ASqueue.continent = 'AS'
@@ -74,7 +74,7 @@ if (localStorage.getItem('ASqueue')){
 
 if (localStorage.getItem('EUqueue')){
     // localStorage.removeItem("EUqueue")
-        EUqueue = localStorage.getItem('EUqueue');
+        EUqueue = localStorage.getItem('EUqueue').split(',').map(Number);
         // EUqueue.continent = 'EU'
 } else {
         // EUqueue.continent = 'EU'
@@ -83,7 +83,7 @@ if (localStorage.getItem('EUqueue')){
 
 if (localStorage.getItem('NAqueue')){
     // localStorage.removeItem("NAqueue")
-        NAqueue = localStorage.getItem('NAqueue');
+        NAqueue = localStorage.getItem('NAqueue').split(',').map(Number);
         // NAqueue.continent = 'NA'
 } else {
         // NAqueue.continent = 'NA'
@@ -92,7 +92,7 @@ if (localStorage.getItem('NAqueue')){
 
 if (localStorage.getItem('OCqueue')){
     // localStorage.removeItem("OCqueue")
-        OCqueue = localStorage.getItem('OCqueue');
+        OCqueue = localStorage.getItem('OCqueue').split(',').map(Number);
         // OCqueue.continent = 'OC'
 } else {
         // OCqueue.continent = 'OC'
@@ -101,7 +101,7 @@ if (localStorage.getItem('OCqueue')){
 
 if (localStorage.getItem('SAqueue')){
     // localStorage.removeItem("SAqueue")
-        SAqueue = localStorage.getItem('SAqueue');
+        SAqueue = localStorage.getItem('SAqueue').split(',').map(Number);
         // SAqueue.continent = 'SA'
 } else {
         // SAqueue.continent = 'SA'
@@ -171,16 +171,18 @@ function App(){
                     highScore = currScore
                     localStorage.setItem('highScore', highScore);
                 }
-                queueArr.forEach((q)=>{
-                    console.log(continentsArr[q.index] + currCountry.continent)
-                    if(continentsArr[q.index] == currCountry.continent || continentsArr[q.index] == 'OA'){
-                        console.log('here' + continentsArr[q.index])
-                        // console.log(q.elements)
+                queueArr.forEach((q, index)=>{
+                    console.log('q is ' + q + typeof(q) + index + continentsArr[index] + currCountry.continent)
+                    if(continentsArr[index] == currCountry.continent || continentsArr[index] == 'OA'){
+                        console.log('here' + continentsArr[index])
+                        console.log(q)
                         q.push(1);
                         if(q.length > 100){
                             q.shift();
                         }
-                        localStorage.setItem(continentsArr[q.index] + 'queue', q)
+                        console.log(typeof(q))
+                        // q = queueArr[index].split(",").map(Number)
+                        localStorage.setItem(continentsArr[index] + 'queue', q)
                     } 
                 })
             } else {
@@ -191,16 +193,18 @@ function App(){
                 }
                 currScore = 0
                 localStorage.setItem('currScore', currScore);
-                queueArr.forEach((q)=>{
-                    console.log(continentsArr[q.index] + currCountry.continent)
-                    if(continentsArr[q.index] == currCountry.continent || continentsArr[q.index] == 'OA'){
-                        console.log('here' + continentsArr[q.index])
-                        // console.log(q.elements)
+                queueArr.forEach((q, index)=>{
+                    console.log('q is ' + q + typeof(q) + index + continentsArr[index] + currCountry.continent)
+                    if(continentsArr[index] == currCountry.continent || continentsArr[index] == 'OA'){
+                        console.log('here' + continentsArr[index])
+                        console.log(q)
                         q.push(0);
                         if(q.length > 100){
                             q.shift();
                         }
-                        localStorage.setItem(continentsArr[q.index] + 'queue', q)
+                        // q = queueArr[index].split(",").map(Number)
+                        localStorage.setItem(continentsArr[index] + 'queue', q)
+                        console.log('typr' + typeof(localStorage.getItem(continentsArr[index] + 'queue')))
                     } 
                 })
                 
@@ -213,16 +217,17 @@ function App(){
             let testCountry = currCountry
 
             continentsArr.forEach((cont)=>{
-                console.log('testing ' + cont)
+                // console.log('testing ' + cont)
                 contSum += localStorage.getItem(cont)
             })
             if(contSum == 0) {
                 continentsArr.forEach((cont)=>{
-                    console.log('changing ' + cont)
+                    // console.log('changing ' + cont)
                     localStorage.setItem(cont, 1)
                 })
             } 
-            while (localStorage.getItem(testCountry.continent) == 0 && testCount < 200 ){
+            console.log('before loop' + seed)
+            while (localStorage.getItem(testCountry.continent) == 0){
                 console.log(seed + "in loop before" + testCountry.continent + testCountry.name)
                 seed = Math.floor(Math.random()*(countryDict.length))
                 testCountry = countryDict[seed]

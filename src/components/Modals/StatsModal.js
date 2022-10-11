@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// let OAqueue = localStorage.getItem('OAqueue').split(',').map(Number)
+
 const StatsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal(
     <React.Fragment>
       <div className="modal-overlay"/>
@@ -11,11 +13,58 @@ const StatsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal(
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <p>
-            Stats
-            Overall
-            {localStorage.getItem('OAqueue').elements}
-          </p>
+          
+            <h2>Stats</h2>
+
+            <table>
+            <tbody>
+              <tr>
+                <th>Continent</th>
+                <th>Correct % of the last 100</th>
+              </tr>
+              <tr>
+                <td>Overall</td>
+                <td>{(localStorage.getItem('OAqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
+                     /localStorage.getItem('OAqueue').split(',').map(Number).length * 100, 0))}%</td>
+              </tr>
+              <tr>
+                <td>Africa</td>
+                <td>{(localStorage.getItem('AFqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
+                     /localStorage.getItem('AFqueue').split(',').map(Number).length * 100, 0))}%</td>
+              </tr>
+              <tr>
+                <td>Antarctica</td>
+                <td>{(localStorage.getItem('ANqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
+                     /localStorage.getItem('ANqueue').split(',').map(Number).length * 100, 0))}%</td>
+              </tr>
+              <tr>
+                <td>Asia</td>
+                <td>{(localStorage.getItem('ASqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
+                     /localStorage.getItem('ASqueue').split(',').map(Number).length * 100, 0))}%</td>
+              </tr>
+              <tr>
+                <td>Europe</td>
+                <td>{(localStorage.getItem('EUqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
+                     /localStorage.getItem('EUqueue').split(',').map(Number).length * 100, 0))}%</td>
+              </tr>
+              <tr>
+                <td>North America</td>
+                <td>{(localStorage.getItem('NAqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
+                    /localStorage.getItem('NAqueue').split(',').map(Number).length * 100, 0))}%</td>
+              </tr>
+              <tr>
+                <td>Oceania</td>
+                <td>{(localStorage.getItem('OCqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
+                     /localStorage.getItem('OCqueue').split(',').map(Number).length * 100, 0))}%</td>
+              </tr>
+              <tr>
+                <td>South America</td>
+                <td>{(localStorage.getItem('SAqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
+                     /localStorage.getItem('SAqueue').split(',').map(Number).length * 100, 0))}%</td>
+              </tr>
+            </tbody>
+            </table>
+
         </div>
       </div>
     </React.Fragment>, document.body
