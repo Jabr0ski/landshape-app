@@ -9,7 +9,7 @@ import useSettingsModal from './components/Modals/useSettingsModal';
 import StatsModal from './components/Modals/StatsModal';
 import useStatsModal from './components/Modals/useStatsModal';
 import countryDict from './components/countryDict';
-import Queue from './components/queueClass';
+// import Queue from './components/queueClass';
 import AutoSuggest from 'react-autosuggest';
 
 let seed = Math.floor(Math.random()*(countryDict.length))
@@ -18,60 +18,93 @@ let highScore = 0
 
 let currCountry = countryDict[localStorage.getItem('seed')]
 
-let AFqueue = new Queue();
-let ANqueue = new Queue();
-let ASqueue = new Queue();
-let EUqueue = new Queue();
-let NAqueue = new Queue();
-let OCqueue = new Queue();
-let SAqueue = new Queue();
+let OAqueue = [] 
+let AFqueue = []
+let ANqueue = []
+let ASqueue = []
+let EUqueue = []
+let NAqueue = []
+let OCqueue = []
+let SAqueue = []
+
+// OAqueue.enqueue(2);
+// console.log(OAqueue.dequeue())
+
+if (localStorage.getItem('OAqueue')){
+    // localStorage.removeItem("OAqueue")
+        OAqueue = localStorage.getItem('OAqueue');
+        // console.log(typeof(OAqueue))
+        // console.log(OAqueue)
+        // OAqueue.continent = 'OA'
+        // OAqueue.enqueue(3);
+        // console.log(OAqueue.hello)
+} else {
+    // OAqueue.continent = 'OA'
+    localStorage.setItem('OAqueue', OAqueue)
+    // console.log(typeof(OAqueue))
+    // console.log(OAqueue)
+}
 
 if (localStorage.getItem('AFqueue')){
+    // localStorage.removeItem("AFqueue")
         AFqueue = localStorage.getItem('AFqueue');
+        // AFqueue.continent = 'AF'
 } else {
-        AFqueue.continent = 'AF'
+        // AFqueue.continent = 'AF'
         localStorage.setItem('AFqueue', AFqueue)
 }
 
 if (localStorage.getItem('ANqueue')){
+    // localStorage.removeItem("ANqueue")
         ANqueue = localStorage.getItem('ANqueue');
+        // ANqueue.continent = 'AN'
 } else {
-        ANqueue.continent = 'AN'
+        // ANqueue.continent = 'AN'
         localStorage.setItem('ANqueue', ANqueue)
 }
 
 if (localStorage.getItem('ASqueue')){
+    // localStorage.removeItem("ASqueue")
         ASqueue = localStorage.getItem('ASqueue');
+        // ASqueue.continent = 'AS'
 } else {
-        ASqueue.continent = 'AS'
+        // ASqueue.continent = 'AS'
         localStorage.setItem('ASqueue', ASqueue)
 }
 
 if (localStorage.getItem('EUqueue')){
+    // localStorage.removeItem("EUqueue")
         EUqueue = localStorage.getItem('EUqueue');
+        // EUqueue.continent = 'EU'
 } else {
-        EUqueue.continent = 'EU'
+        // EUqueue.continent = 'EU'
         localStorage.setItem('EUqueue', EUqueue)
 }
 
 if (localStorage.getItem('NAqueue')){
+    // localStorage.removeItem("NAqueue")
         NAqueue = localStorage.getItem('NAqueue');
+        // NAqueue.continent = 'NA'
 } else {
-        NAqueue.continent = 'NA'
+        // NAqueue.continent = 'NA'
         localStorage.setItem('NAqueue', NAqueue)
 }
 
 if (localStorage.getItem('OCqueue')){
-        AFqueue = localStorage.getItem('OCqueue');
+    // localStorage.removeItem("OCqueue")
+        OCqueue = localStorage.getItem('OCqueue');
+        // OCqueue.continent = 'OC'
 } else {
-        OCqueue.continent = 'OC'
+        // OCqueue.continent = 'OC'
         localStorage.setItem('OCqueue', OCqueue)
 }
 
 if (localStorage.getItem('SAqueue')){
+    // localStorage.removeItem("SAqueue")
         SAqueue = localStorage.getItem('SAqueue');
+        // SAqueue.continent = 'SA'
 } else {
-        SAqueue.continent = 'SA'
+        // SAqueue.continent = 'SA'
         localStorage.setItem('SAqueue', SAqueue)
 }
 
@@ -83,7 +116,8 @@ if (localStorage.getItem('highScore')){
     highScore = parseInt(localStorage.getItem('highScore'));
 }
 
-const continentsArr = ['AF', 'AN', 'AS', 'EU', 'NA', 'OC', 'SA']
+const continentsArr = ['OA', 'AF', 'AN', 'AS', 'EU', 'NA', 'OC', 'SA']
+const queueArr = [OAqueue, AFqueue, ANqueue, ASqueue, EUqueue, NAqueue, OCqueue, SAqueue]
 
 const lowerCasedCountries = countryDict.map(country => {
     return {
@@ -137,6 +171,18 @@ function App(){
                     highScore = currScore
                     localStorage.setItem('highScore', highScore);
                 }
+                queueArr.forEach((q)=>{
+                    console.log(continentsArr[q.index] + currCountry.continent)
+                    if(continentsArr[q.index] == currCountry.continent || continentsArr[q.index] == 'OA'){
+                        console.log('here' + continentsArr[q.index])
+                        // console.log(q.elements)
+                        q.push(1);
+                        if(q.length > 100){
+                            q.shift();
+                        }
+                        localStorage.setItem(continentsArr[q.index] + 'queue', q)
+                    } 
+                })
             } else {
                 if (answer === ""){
                     setValue("It is " + currCountry.name + ".")
@@ -145,6 +191,19 @@ function App(){
                 }
                 currScore = 0
                 localStorage.setItem('currScore', currScore);
+                queueArr.forEach((q)=>{
+                    console.log(continentsArr[q.index] + currCountry.continent)
+                    if(continentsArr[q.index] == currCountry.continent || continentsArr[q.index] == 'OA'){
+                        console.log('here' + continentsArr[q.index])
+                        // console.log(q.elements)
+                        q.push(0);
+                        if(q.length > 100){
+                            q.shift();
+                        }
+                        localStorage.setItem(continentsArr[q.index] + 'queue', q)
+                    } 
+                })
+                
             }
             seed = Math.floor(Math.random()*(countryDict.length))
             currCountry = countryDict[localStorage.getItem('seed')]
@@ -163,7 +222,7 @@ function App(){
                     localStorage.setItem(cont, 1)
                 })
             } 
-            while (localStorage.getItem(testCountry.continent) == 0 && testCount < 50 ){
+            while (localStorage.getItem(testCountry.continent) == 0 && testCount < 200 ){
                 console.log(seed + "in loop before" + testCountry.continent + testCountry.name)
                 seed = Math.floor(Math.random()*(countryDict.length))
                 testCountry = countryDict[seed]
@@ -178,7 +237,6 @@ function App(){
         setSubmitted(!submitted)
         return false
     }
-
     return (
         <div className='app'>
             <TitleRow/>

@@ -13,6 +13,8 @@ const StatsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal(
           </div>
           <p>
             Stats
+            Overall
+            {localStorage.getItem('OAqueue').elements}
           </p>
         </div>
       </div>
