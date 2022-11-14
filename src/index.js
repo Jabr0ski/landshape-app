@@ -9,103 +9,25 @@ import useSettingsModal from './components/Modals/useSettingsModal';
 import StatsModal from './components/Modals/StatsModal';
 import useStatsModal from './components/Modals/useStatsModal';
 import countryDict from './components/countryDict';
-// import Queue from './components/queueClass';
 import AutoSuggest from 'react-autosuggest';
+import start from './Helpers/start.js'
+import continentQueues from "./Helpers/statQueues.js";
 
 let seed = Math.floor(Math.random()*(countryDict.length))
+
+start()
+
 let currScore = 0
 let highScore = 0
 
 let currCountry = countryDict[localStorage.getItem('seed')]
 
-let OAqueue = [] 
-let AFqueue = []
-let ANqueue = []
-let ASqueue = []
-let EUqueue = []
-let NAqueue = []
-let OCqueue = []
-let SAqueue = []
-
-// OAqueue.enqueue(2);
-// console.log(OAqueue.dequeue())
-
-if (localStorage.getItem('OAqueue')){
-    // localStorage.removeItem("OAqueue")
-        OAqueue = localStorage.getItem('OAqueue').split(',').map(Number);
-        // console.log(typeof(OAqueue))
-        // console.log(OAqueue)
-        // OAqueue.continent = 'OA'
-        // OAqueue.enqueue(3);
-        // console.log(OAqueue.hello)
-} else {
-    // OAqueue.continent = 'OA'
-    localStorage.setItem('OAqueue', OAqueue)
-    // console.log(typeof(OAqueue))
-    // console.log(OAqueue)
+if (localStorage.getItem('currScore')){
+    currScore = parseInt(localStorage.getItem('currScore'));
 }
 
-if (localStorage.getItem('AFqueue')){
-    // localStorage.removeItem("AFqueue")
-        AFqueue = localStorage.getItem('AFqueue').split(',').map(Number);
-        // AFqueue.continent = 'AF'
-} else {
-        // AFqueue.continent = 'AF'
-        localStorage.setItem('AFqueue', AFqueue)
-}
-
-if (localStorage.getItem('ANqueue')){
-    // localStorage.removeItem("ANqueue")
-        ANqueue = localStorage.getItem('ANqueue').split(',').map(Number);
-        // ANqueue.continent = 'AN'
-} else {
-        // ANqueue.continent = 'AN'
-        localStorage.setItem('ANqueue', ANqueue)
-}
-
-if (localStorage.getItem('ASqueue')){
-    // localStorage.removeItem("ASqueue")
-        ASqueue = localStorage.getItem('ASqueue').split(',').map(Number);
-        // ASqueue.continent = 'AS'
-} else {
-        // ASqueue.continent = 'AS'
-        localStorage.setItem('ASqueue', ASqueue)
-}
-
-if (localStorage.getItem('EUqueue')){
-    // localStorage.removeItem("EUqueue")
-        EUqueue = localStorage.getItem('EUqueue').split(',').map(Number);
-        // EUqueue.continent = 'EU'
-} else {
-        // EUqueue.continent = 'EU'
-        localStorage.setItem('EUqueue', EUqueue)
-}
-
-if (localStorage.getItem('NAqueue')){
-    // localStorage.removeItem("NAqueue")
-        NAqueue = localStorage.getItem('NAqueue').split(',').map(Number);
-        // NAqueue.continent = 'NA'
-} else {
-        // NAqueue.continent = 'NA'
-        localStorage.setItem('NAqueue', NAqueue)
-}
-
-if (localStorage.getItem('OCqueue')){
-    // localStorage.removeItem("OCqueue")
-        OCqueue = localStorage.getItem('OCqueue').split(',').map(Number);
-        // OCqueue.continent = 'OC'
-} else {
-        // OCqueue.continent = 'OC'
-        localStorage.setItem('OCqueue', OCqueue)
-}
-
-if (localStorage.getItem('SAqueue')){
-    // localStorage.removeItem("SAqueue")
-        SAqueue = localStorage.getItem('SAqueue').split(',').map(Number);
-        // SAqueue.continent = 'SA'
-} else {
-        // SAqueue.continent = 'SA'
-        localStorage.setItem('SAqueue', SAqueue)
+if (localStorage.getItem('highScore')){
+    highScore = parseInt(localStorage.getItem('highScore'));
 }
 
 if (localStorage.getItem('currScore')){
@@ -117,7 +39,15 @@ if (localStorage.getItem('highScore')){
 }
 
 const continentsArr = ['OA', 'AF', 'AN', 'AS', 'EU', 'NA', 'OC', 'SA']
-const queueArr = [OAqueue, AFqueue, ANqueue, ASqueue, EUqueue, NAqueue, OCqueue, SAqueue]
+const queueArr = 
+[continentQueues.OAqueue, 
+    continentQueues.AFqueue, 
+    continentQueues.ANqueue, 
+    continentQueues.ASqueue, 
+    continentQueues.EUqueue, 
+    continentQueues.NAqueue, 
+    continentQueues.OCqueue, 
+    continentQueues.SAqueue]
 
 const lowerCasedCountries = countryDict.map(country => {
     return {
@@ -160,7 +90,6 @@ function App(){
       };
 
     function handleClick(){
-        console.log("click")
         let answer = value.toLowerCase().trim()
         if (!submitted){
             if (answer === currCountry.name.toLowerCase()){
@@ -172,16 +101,11 @@ function App(){
                     localStorage.setItem('highScore', highScore);
                 }
                 queueArr.forEach((q, index)=>{
-                    console.log('q is ' + q + typeof(q) + index + continentsArr[index] + currCountry.continent)
                     if(continentsArr[index] == currCountry.continent || continentsArr[index] == 'OA'){
-                        console.log('here' + continentsArr[index])
-                        console.log(q)
                         q.push(1);
                         if(q.length > 100){
                             q.shift();
                         }
-                        console.log(typeof(q))
-                        // q = queueArr[index].split(",").map(Number)
                         localStorage.setItem(continentsArr[index] + 'queue', q)
                     } 
                 })
@@ -194,45 +118,32 @@ function App(){
                 currScore = 0
                 localStorage.setItem('currScore', currScore);
                 queueArr.forEach((q, index)=>{
-                    console.log('q is ' + q + typeof(q) + index + continentsArr[index] + currCountry.continent)
                     if(continentsArr[index] == currCountry.continent || continentsArr[index] == 'OA'){
-                        console.log('here' + continentsArr[index])
-                        console.log(q)
                         q.push(0);
                         if(q.length > 100){
                             q.shift();
                         }
-                        // q = queueArr[index].split(",").map(Number)
                         localStorage.setItem(continentsArr[index] + 'queue', q)
-                        console.log('typr' + typeof(localStorage.getItem(continentsArr[index] + 'queue')))
                     } 
-                })
-                
+                })            
             }
             seed = Math.floor(Math.random()*(countryDict.length))
-            currCountry = countryDict[localStorage.getItem('seed')]
+            let testCountry = countryDict[seed]
 
-            let testCount = 0
             let contSum = 0
-            let testCountry = currCountry
 
             continentsArr.forEach((cont)=>{
-                // console.log('testing ' + cont)
                 contSum += localStorage.getItem(cont)
             })
             if(contSum == 0) {
                 continentsArr.forEach((cont)=>{
-                    // console.log('changing ' + cont)
                     localStorage.setItem(cont, 1)
                 })
             } 
-            console.log('before loop' + seed)
+
             while (localStorage.getItem(testCountry.continent) == 0){
-                console.log(seed + "in loop before" + testCountry.continent + testCountry.name)
                 seed = Math.floor(Math.random()*(countryDict.length))
                 testCountry = countryDict[seed]
-                console.log(seed + "in loop after" + testCountry.continent + testCountry.name)
-                testCount = testCount + 1
             }
             localStorage.setItem('seed', seed)
         } else {

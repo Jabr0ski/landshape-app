@@ -20,47 +20,47 @@ const StatsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal(
             <tbody>
               <tr>
                 <th>Continent</th>
-                <th>Correct % of the last 100</th>
+                <th>Correct % of the Past 100 Guesses</th>
               </tr>
               <tr>
                 <td>Overall</td>
                 <td>{(localStorage.getItem('OAqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
-                     /localStorage.getItem('OAqueue').split(',').map(Number).length * 100, 0))}%</td>
+                     /localStorage.getItem('OAqueue').split(',').map(Number).length * 100, 0)).toFixed(2)}%</td>
               </tr>
               <tr>
                 <td>Africa</td>
                 <td>{(localStorage.getItem('AFqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
-                     /localStorage.getItem('AFqueue').split(',').map(Number).length * 100, 0))}%</td>
+                     /localStorage.getItem('AFqueue').split(',').map(Number).length * 100, 0)).toFixed(2)}%</td>
               </tr>
               <tr>
                 <td>Antarctica</td>
                 <td>{(localStorage.getItem('ANqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
-                     /localStorage.getItem('ANqueue').split(',').map(Number).length * 100, 0))}%</td>
+                     /localStorage.getItem('ANqueue').split(',').map(Number).length * 100, 0)).toFixed(2)}%</td>
               </tr>
               <tr>
                 <td>Asia</td>
                 <td>{(localStorage.getItem('ASqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
-                     /localStorage.getItem('ASqueue').split(',').map(Number).length * 100, 0))}%</td>
+                     /localStorage.getItem('ASqueue').split(',').map(Number).length * 100, 0)).toFixed(2)}%</td>
               </tr>
               <tr>
                 <td>Europe</td>
                 <td>{(localStorage.getItem('EUqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
-                     /localStorage.getItem('EUqueue').split(',').map(Number).length * 100, 0))}%</td>
+                     /localStorage.getItem('EUqueue').split(',').map(Number).length * 100, 0)).toFixed(2)}%</td>
               </tr>
               <tr>
                 <td>North America</td>
                 <td>{(localStorage.getItem('NAqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
-                    /localStorage.getItem('NAqueue').split(',').map(Number).length * 100, 0))}%</td>
+                     /localStorage.getItem('NAqueue').split(',').map(Number).length * 100, 0)).toFixed(2)}%</td>
               </tr>
               <tr>
                 <td>Oceania</td>
                 <td>{(localStorage.getItem('OCqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
-                     /localStorage.getItem('OCqueue').split(',').map(Number).length * 100, 0))}%</td>
+                     /localStorage.getItem('OCqueue').split(',').map(Number).length * 100, 0)).toFixed(2)}%</td>
               </tr>
               <tr>
                 <td>South America</td>
                 <td>{(localStorage.getItem('SAqueue').split(',').map(Number).reduce((partialSum, a) => partialSum + parseInt(a)
-                     /localStorage.getItem('SAqueue').split(',').map(Number).length * 100, 0))}%</td>
+                     /localStorage.getItem('SAqueue').split(',').map(Number).length * 100, 0)).toFixed(2)}%</td>
               </tr>
             </tbody>
             </table>

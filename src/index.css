@@ -132,6 +132,10 @@
   width: 100%;
 }
 
+.stats-text {
+  white-space: pre-line;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
