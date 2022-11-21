@@ -44,10 +44,10 @@ if (localStorage.getItem('SA')){
 }
 
 function boxUpdate(contCode, currChk){
-  console.log(contCode, currChk, 'before' + localStorage.getItem('AF'))
+  // console.log(contCode, currChk, 'before' + localStorage.getItem('AF'))
   let newVal = 1 - currChk
   localStorage.setItem(contCode, newVal)
-  console.log(newVal, 'after' + localStorage.getItem('AF'))
+  // console.log(newVal, 'after' + localStorage.getItem('AF'))
 }
 
 const SettingsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal(
@@ -71,6 +71,9 @@ const SettingsModal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal
             </table>
           </div>
           <div>
+            <p>
+              Note that selecting any less than every continent will reset your current score streak.
+            </p>
             <form>
               <label htmlFor="AF">
                 <input type="checkbox" id="AF" name="Africa"  

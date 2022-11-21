@@ -13,9 +13,9 @@ import AutoSuggest from 'react-autosuggest';
 import start from './Helpers/start.js'
 import continentQueues from "./Helpers/statQueues.js";
 
-let seed = Math.floor(Math.random()*(countryDict.length))
-
 start()
+
+let seed = Math.floor(Math.random()*(countryDict.length))
 
 let currScore = 0
 let highScore = 0
@@ -89,57 +89,70 @@ function App(){
         SubmitButtonRef.current.focus();
       };
 
+    function filterCheck(){
+        let contSum = 0
+        continentsArr.forEach((cont)=>{
+            contSum += parseInt(localStorage.getItem(cont))
+            console.log(contSum, " constum and contArr len is ", continentsArr.length)
+        })
+        if(contSum == 1) {
+            continentsArr.forEach((cont)=>{
+                localStorage.setItem(cont, 1)
+            })
+            contSum = continentsArr.length
+        } else if(contSum < continentsArr.length) {
+            currScore = 0
+            localStorage.setItem('currScore', currScore);
+        }
+        return contSum < continentsArr.length
+    }
+
     function handleClick(){
         let answer = value.toLowerCase().trim()
+        // let contSum = 0
         if (!submitted){
+            filterCheck()
             if (answer === currCountry.name.toLowerCase()){
                 setValue(currCountry.name + " is correct!")
-                currScore = currScore + 1
-                localStorage.setItem('currScore', currScore);
-                if (currScore > highScore){
-                    highScore = currScore
-                    localStorage.setItem('highScore', highScore);
-                }
-                queueArr.forEach((q, index)=>{
-                    if(continentsArr[index] == currCountry.continent || continentsArr[index] == 'OA'){
-                        q.push(1);
-                        if(q.length > 100){
-                            q.shift();
-                        }
-                        localStorage.setItem(continentsArr[index] + 'queue', q)
-                    } 
-                })
+                if (!filterCheck()){
+                    currScore = currScore + 1
+                    localStorage.setItem('currScore', currScore);
+                    if (currScore > highScore){
+                        highScore = currScore
+                        localStorage.setItem('highScore', highScore);
+                    }
+                    queueArr.forEach((q, index)=>{
+                        if(continentsArr[index] == currCountry.continent || continentsArr[index] == 'OA'){
+                            q.push(1);
+                            if(q.length > 100){
+                                q.shift();
+                            }
+                            localStorage.setItem(continentsArr[index] + 'queue', q)
+                        } 
+                    })
+                } 
             } else {
                 if (answer === ""){
                     setValue("It is " + currCountry.name + ".")
                 } else {
                     setValue(answer + " is wrong. It is " + currCountry.name + ".")
                 }
-                currScore = 0
-                localStorage.setItem('currScore', currScore);
-                queueArr.forEach((q, index)=>{
-                    if(continentsArr[index] == currCountry.continent || continentsArr[index] == 'OA'){
-                        q.push(0);
-                        if(q.length > 100){
-                            q.shift();
-                        }
-                        localStorage.setItem(continentsArr[index] + 'queue', q)
-                    } 
-                })            
+                // if (contSum == continentsArr.length){
+                    currScore = 0
+                    localStorage.setItem('currScore', currScore);
+                    queueArr.forEach((q, index)=>{
+                        if(continentsArr[index] == currCountry.continent || continentsArr[index] == 'OA'){
+                            q.push(0);
+                            if(q.length > 100){
+                                q.shift();
+                            }
+                            localStorage.setItem(continentsArr[index] + 'queue', q)
+                        } 
+                    })  
+                // }          
             }
             seed = Math.floor(Math.random()*(countryDict.length))
             let testCountry = countryDict[seed]
-
-            let contSum = 0
-
-            continentsArr.forEach((cont)=>{
-                contSum += localStorage.getItem(cont)
-            })
-            if(contSum == 0) {
-                continentsArr.forEach((cont)=>{
-                    localStorage.setItem(cont, 1)
-                })
-            } 
 
             while (localStorage.getItem(testCountry.continent) == 0){
                 seed = Math.floor(Math.random()*(countryDict.length))
@@ -147,6 +160,7 @@ function App(){
             }
             localStorage.setItem('seed', seed)
         } else {
+            filterCheck()
             currCountry = countryDict[localStorage.getItem('seed')]
             setValue('')
         }
